@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Тайм-коди стріму</title>
+  <title>CaptainBayraktar</title>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; }
     h1 { font-size: 24px; }
@@ -11,16 +11,21 @@
     button { font-size: 18px; padding: 10px 20px; margin: 5px; border-radius: 8px; border: none; cursor: pointer; }
     #shorts { background-color: #f39c12; }
     #full { background-color: #27ae60; color: white; }
+    #save { background-color: #3498db; color: white; }
+    #saveImage { background-color: #9b59b6; color: white; }
     textarea { width: 100%; height: 200px; margin-top: 20px; font-size: 16px; }
   </style>
 </head>
 <body>
-  <h1>Тайм-коди для стріму</h1>
+  <h1>CaptainBayraktar</h1>
   <div id="time">00:00:00</div>
   <button id="shorts">Shorts</button>
   <button id="full">Full</button>
+  <button id="save">Save as TXT</button>
+  <button id="saveImage">Save as Image</button>
   <textarea id="log" readonly></textarea>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script>
     function updateTime() {
       const now = new Date();
@@ -40,8 +45,28 @@
       log.value += `[${time}] ${label}\n`;
     }
 
+    function saveAsTxt() {
+      const text = document.getElementById('log').value;
+      const blob = new Blob([text], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'timestamps.txt';
+      link.click();
+    }
+
+    function saveAsImage() {
+      html2canvas(document.getElementById('log')).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'timestamps.png';
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    }
+
     document.getElementById('shorts').addEventListener('click', () => logEvent('SHORTS'));
     document.getElementById('full').addEventListener('click', () => logEvent('FULL'));
+    document.getElementById('save').addEventListener('click', saveAsTxt);
+    document.getElementById('saveImage').addEventListener('click', saveAsImage);
   </script>
 </body>
 </html>
