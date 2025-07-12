@@ -143,14 +143,17 @@
     }
 
     function saveAsTxt() {
-      const date = document.getElementById('datetime').textContent.replace('Date: ', '').replace(/\./g, '-');
-      const text = document.getElementById('log').value;
-      const blob = new Blob([text], { type: 'text/plain' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `timestamps-${date}.txt`;
-      link.click();
-    }
+  const date = document.getElementById('datetime').textContent.replace('Date: ', '');
+  const text = document.getElementById('log').value;
+  const header = `CaptainBayraktar — ${date}\n-----------------------------\n`;
+  const fullText = header + text;
+  const blob = new Blob([fullText], { type: 'text/plain' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `timestamps-${date.replace(/\./g, '-')}.txt`;
+  link.click();
+}
+
 
     function clearLog() {
       document.getElementById('log').value = '';
