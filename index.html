@@ -8,40 +8,50 @@
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
-      background-image: url('https://images.unsplash.com/photo-1612197592153-cd6029f1bb57?auto=format&fit=crop&w=1470&q=80');
-      background-size: cover;
-      background-position: center;
-      color: white;
+      background-color: #121212;
+      color: #e0e0e0;
     }
-    h1 { font-size: 32px; text-shadow: 2px 2px 4px #000; }
-    #datetime { font-size: 20px; margin-bottom: 10px; text-shadow: 1px 1px 3px #000; }
-    #time { font-size: 32px; margin-bottom: 20px; text-shadow: 1px 1px 3px #000; }
+    h1 {
+      font-size: 32px;
+      text-shadow: 1px 1px 2px #000;
+    }
+    #datetime, #time {
+      font-size: 20px;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 2px #000;
+    }
+    #time {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
     button {
-      font-size: 18px;
-      padding: 10px 20px;
-      margin: 5px;
-      border-radius: 8px;
+      font-size: 16px;
+      padding: 12px;
+      margin: 10px 0;
+      width: 200px;
+      border-radius: 6px;
       border: none;
       cursor: pointer;
-      box-shadow: 2px 2px 6px #00000055;
+      background-color: #1e1e1e;
+      color: white;
+      box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+      display: block;
     }
-    #shorts { background-color: #f39c12; }
-    #full { background-color: #27ae60; color: white; }
-    #save { background-color: #3498db; color: white; }
-    #saveImage { background-color: #9b59b6; color: white; }
-    #clearLog { background-color: #e74c3c; color: white; }
+    button:hover {
+      background-color: #2a2a2a;
+    }
     textarea {
       width: 100%;
       height: 300px;
       margin-top: 20px;
       font-size: 16px;
+      background: #1e1e1e;
+      color: #e0e0e0;
+      border: 1px solid #333;
+      padding: 10px;
+      border-radius: 6px;
       white-space: pre;
       overflow-y: scroll;
-      background: rgba(0, 0, 0, 0.6);
-      color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 8px;
     }
   </style>
 </head>
@@ -49,14 +59,14 @@
   <h1>CaptainBayraktar</h1>
   <div id="datetime">Date: --.--.----</div>
   <div id="time">00:00:00</div>
+
   <button id="shorts">Shorts</button>
   <button id="full">Full</button>
   <button id="save">Save as TXT</button>
-  <button id="saveImage">Save as Image</button>
   <button id="clearLog">Clear Log</button>
+
   <textarea id="log" readonly></textarea>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script>
     function updateTime() {
       const now = new Date();
@@ -94,16 +104,6 @@
       link.click();
     }
 
-    function saveAsImage() {
-      html2canvas(document.getElementById('log')).then(canvas => {
-        const date = document.getElementById('datetime').textContent.replace('Date: ', '').replace(/\./g, '-');
-        const link = document.createElement('a');
-        link.download = `timestamps-${date}.png`;
-        link.href = canvas.toDataURL();
-        link.click();
-      });
-    }
-
     function clearLog() {
       document.getElementById('log').value = '';
     }
@@ -111,7 +111,6 @@
     document.getElementById('shorts').addEventListener('click', () => logEvent('SHORTS'));
     document.getElementById('full').addEventListener('click', () => logEvent('FULL'));
     document.getElementById('save').addEventListener('click', saveAsTxt);
-    document.getElementById('saveImage').addEventListener('click', saveAsImage);
     document.getElementById('clearLog').addEventListener('click', clearLog);
   </script>
 </body>
