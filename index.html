@@ -170,9 +170,32 @@
     }
 
     // Заглушка до подключения Telegram
-    function sendToTelegram() {
-      alert('Скоро здесь будет автоматическая отправка в Telegram 📩');
+    async function sendToTelegram() {
+    const date = document.getElementById('datetime').textContent.replace('Date: ', '');
+    const text = document.getElementById('log').value;
+    const header =
+      `-----------------------------\n` +
+      `CaptainBayraktar — ${date}\n` +
+      `-----------------------------\n`;
+    const fullText = header + text;
+    const blob = new Blob([fullText], { type: 'text/plain' });
+    const formData = new FormData();
+    formData.append('file', blob, `timestamps-${date.replace(/\./g, '-')}.txt`);
+
+    try {
+      const response = await fetch('https://bayraktar-timestamp-bot.onrender.com/send', {
+        method: 'POST',
+        body: formData
+      });
+      if (response.ok) {
+        alert('✅ Отправлено Байрактару!');
+      } else {
+        alert('❌ Ошибка при отправке. Попробуй позже.');
+      }
+    } catch (error) {
+      alert('❌ Не удалось подключиться к серверу.');
     }
+  }
 
     document.getElementById('shorts').addEventListener('click', () => logEvent('SHORTS'));
     document.getElementById('full').addEventListener('click', () => logEvent('FULL'));
