@@ -5,16 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CaptainBayraktar</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    h1 { font-size: 24px; }
-    #datetime { font-size: 20px; margin-bottom: 10px; }
-    #time { font-size: 32px; margin-bottom: 20px; }
-    button { font-size: 18px; padding: 10px 20px; margin: 5px; border-radius: 8px; border: none; cursor: pointer; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-image: url('https://images.unsplash.com/photo-1612197592153-cd6029f1bb57?auto=format&fit=crop&w=1470&q=80');
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
+    h1 { font-size: 32px; text-shadow: 2px 2px 4px #000; }
+    #datetime { font-size: 20px; margin-bottom: 10px; text-shadow: 1px 1px 3px #000; }
+    #time { font-size: 32px; margin-bottom: 20px; text-shadow: 1px 1px 3px #000; }
+    button {
+      font-size: 18px;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 2px 2px 6px #00000055;
+    }
     #shorts { background-color: #f39c12; }
     #full { background-color: #27ae60; color: white; }
     #save { background-color: #3498db; color: white; }
     #saveImage { background-color: #9b59b6; color: white; }
-    textarea { width: 100%; height: 300px; margin-top: 20px; font-size: 16px; white-space: pre; overflow-y: scroll; }
+    #clearLog { background-color: #e74c3c; color: white; }
+    textarea {
+      width: 100%;
+      height: 300px;
+      margin-top: 20px;
+      font-size: 16px;
+      white-space: pre;
+      overflow-y: scroll;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
@@ -25,6 +53,7 @@
   <button id="full">Full</button>
   <button id="save">Save as TXT</button>
   <button id="saveImage">Save as Image</button>
+  <button id="clearLog">Clear Log</button>
   <textarea id="log" readonly></textarea>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -75,10 +104,15 @@
       });
     }
 
+    function clearLog() {
+      document.getElementById('log').value = '';
+    }
+
     document.getElementById('shorts').addEventListener('click', () => logEvent('SHORTS'));
     document.getElementById('full').addEventListener('click', () => logEvent('FULL'));
     document.getElementById('save').addEventListener('click', saveAsTxt);
     document.getElementById('saveImage').addEventListener('click', saveAsImage);
+    document.getElementById('clearLog').addEventListener('click', clearLog);
   </script>
 </body>
 </html>
