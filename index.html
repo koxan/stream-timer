@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тайм-коди стріму</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    h1 { font-size: 24px; }
+    #time { font-size: 32px; margin-bottom: 20px; }
+    button { font-size: 18px; padding: 10px 20px; margin: 5px; border-radius: 8px; border: none; cursor: pointer; }
+    #shorts { background-color: #f39c12; }
+    #full { background-color: #27ae60; color: white; }
+    textarea { width: 100%; height: 200px; margin-top: 20px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h1>Тайм-коди для стріму</h1>
+  <div id="time">00:00:00</div>
+  <button id="shorts">Shorts</button>
+  <button id="full">Full</button>
+  <textarea id="log" readonly></textarea>
+
+  <script>
+    function updateTime() {
+      const now = new Date();
+      const kievTime = new Intl.DateTimeFormat('uk-UA', {
+        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        timeZone: 'Europe/Kyiv', hour12: false
+      }).format(now);
+      document.getElementById('time').textContent = kievTime;
+    }
+
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    function logEvent(label) {
+      const time = document.getElementById('time').textContent;
+      const log = document.getElementById('log');
+      log.value += `[${time}] ${label}\n`;
+    }
+
+    document.getElementById('shorts').addEventListener('click', () => logEvent('SHORTS'));
+    document.getElementById('full').addEventListener('click', () => logEvent('FULL'));
+  </script>
+</body>
+</html>
