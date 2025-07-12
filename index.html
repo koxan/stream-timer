@@ -145,7 +145,10 @@
     function saveAsTxt() {
   const date = document.getElementById('datetime').textContent.replace('Date: ', '');
   const text = document.getElementById('log').value;
-  const header = `CaptainBayraktar — ${date}\n-----------------------------\n`;
+  const header =
+    `-----------------------------\n` +
+    `CaptainBayraktar — ${date}\n` +
+    `-----------------------------\n`;
   const fullText = header + text;
   const blob = new Blob([fullText], { type: 'text/plain' });
   const link = document.createElement('a');
@@ -153,6 +156,7 @@
   link.download = `timestamps-${date.replace(/\./g, '-')}.txt`;
   link.click();
 }
+
 
 
     function clearLog() {
