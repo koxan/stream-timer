@@ -7,17 +7,19 @@
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; }
     h1 { font-size: 24px; }
+    #datetime { font-size: 20px; margin-bottom: 10px; }
     #time { font-size: 32px; margin-bottom: 20px; }
     button { font-size: 18px; padding: 10px 20px; margin: 5px; border-radius: 8px; border: none; cursor: pointer; }
     #shorts { background-color: #f39c12; }
     #full { background-color: #27ae60; color: white; }
     #save { background-color: #3498db; color: white; }
     #saveImage { background-color: #9b59b6; color: white; }
-    textarea { width: 100%; height: 200px; margin-top: 20px; font-size: 16px; }
+    textarea { width: 100%; height: 300px; margin-top: 20px; font-size: 16px; white-space: pre; overflow-y: scroll; }
   </style>
 </head>
 <body>
   <h1>CaptainBayraktar</h1>
+  <div id="datetime">Date: --.--.----</div>
   <div id="time">00:00:00</div>
   <button id="shorts">Shorts</button>
   <button id="full">Full</button>
@@ -29,10 +31,18 @@
   <script>
     function updateTime() {
       const now = new Date();
+
+      const kievDate = new Intl.DateTimeFormat('uk-UA', {
+        day: '2-digit', month: '2-digit', year: 'numeric',
+        timeZone: 'Europe/Kyiv'
+      }).format(now);
+
       const kievTime = new Intl.DateTimeFormat('uk-UA', {
         hour: '2-digit', minute: '2-digit', second: '2-digit',
         timeZone: 'Europe/Kyiv', hour12: false
       }).format(now);
+
+      document.getElementById('datetime').textContent = `Date: ${kievDate}`;
       document.getElementById('time').textContent = kievTime;
     }
 
@@ -46,18 +56,20 @@
     }
 
     function saveAsTxt() {
+      const date = document.getElementById('datetime').textContent.replace('Date: ', '').replace(/\./g, '-');
       const text = document.getElementById('log').value;
       const blob = new Blob([text], { type: 'text/plain' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = 'timestamps.txt';
+      link.download = `timestamps-${date}.txt`;
       link.click();
     }
 
     function saveAsImage() {
       html2canvas(document.getElementById('log')).then(canvas => {
+        const date = document.getElementById('datetime').textContent.replace('Date: ', '').replace(/\./g, '-');
         const link = document.createElement('a');
-        link.download = 'timestamps.png';
+        link.download = `timestamps-${date}.png`;
         link.href = canvas.toDataURL();
         link.click();
       });
